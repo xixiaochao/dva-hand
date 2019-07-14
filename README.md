@@ -13,6 +13,6 @@ dva 首先是一个基于 redux 和 redux-saga 的数据流方案，然后为了
 ```
 npx create-react-app dva-hand
 cd dva-hand
-cnpm install dva redux react-redux react-router dom  connected-react-router history
+npm install dva redux react-redux react-router-dom  connected-react-router history
 npm start
 ```
