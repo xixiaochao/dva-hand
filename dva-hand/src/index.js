@@ -2,7 +2,7 @@
  *  计数器
  */
 import React from 'react';
-import dva,{connect} from './dva';
+import dva,{connect} from 'dva';
 import {Router,Route,Link,routerRedux} from './dva/router';
 import {createBrowserHistory} from 'history';
 //import logger from 'redux-logger';
@@ -27,7 +27,8 @@ let app = dva({
     history,
     initialState:{counter:{number:5}},
     onError:(error)=>alert(error),
-    onAction:logger, // 中间件
+    onAction:logger, // 可以支持中间件
+    onStateChange:state=>localStorage.setItem('state',JSON.stringify(state))
 });
 app.model({
     namespace:'counter',

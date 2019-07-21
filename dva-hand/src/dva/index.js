@@ -49,8 +49,22 @@ export default function(options){
             }
         }
         let finalReducer = combineReducers(reducers);
+        finalReducer = function(state,action){
+            let newState = finalReducer(state,action);
+            options.onStatechange&&options.onStatechange(newState);
+            return newState;
+            
+        }
         let sagaMiddleware = createSagaMiddleware();
-        let store = createStore(finalReducer,options.initialState||{},applyMiddleware(routerMiddleware(history),sagaMiddleware));
+        if(options.onAction){
+            if(typeof options.onAction == 'function'){
+                options.onAction = [options.onAction];
+            }
+        }else{
+            options.onAction = [];
+        }
+        let store = createStore(finalReducer,options.initialState||{},applyMiddleware(
+            routerMiddleware(history),sagaMiddleware,...options.onAction));
         function *rootSaga(){
             const {takeEvery} = sagaEffects;
             for(const model of app._models){
